@@ -1,8 +1,6 @@
 #!/bin/env python3
 # branch.py
 # This might need to interact with commits, for example, to create a branch at a specific commit
-from commit import create_commit
-
 import os
 from hashnstore import store_object
 
@@ -23,11 +21,15 @@ def create_commit(message, author="Author <email>", repo_name='.vcs'):
     with open(branch_path, 'w') as f:
         f.write(commit_hash)
 
-
-
-# branch.py
-def create_branch(name, start_point='master', repo_name='.yourvcs'):
+def create_branch(name, start_point=None, repo_name='.vcs'):
     """Create a new branch."""
-    # Copy the start_point commit hash to the new branch file in refs/heads
-    pass
+    branch_path = os.path.join(repo_name, 'refs', 'heads', name)
 
+    if start_point:
+        # Copy the start_point commit hash to the new branch file in refs/heads
+        with open(branch_path, 'w') as f:
+            f.write(start_point)
+    else:
+        # Create an empty branch file
+        with open(branch_path, 'w') as f:
+            f.write('')

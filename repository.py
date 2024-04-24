@@ -1,5 +1,7 @@
 #!/bin/env python3
+
 import os
+from branch import create_branch
 
 def init_repository(repo_name='.vcs'):
     """Initialize a new repository."""
@@ -10,6 +12,5 @@ def init_repository(repo_name='.vcs'):
     with open(os.path.join(repo_name, 'HEAD'), 'w') as f:
         f.write('refs/heads/master\n')
 
-# Example usage:
-init_repository()
-
+    # Create the initial "master" branch
+    create_branch('master', repo_name=repo_name)
