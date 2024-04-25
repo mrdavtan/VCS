@@ -8,7 +8,6 @@ from branch import create_branch, get_current_branch, get_branch_commit, switch_
 from tracker import track_changes
 from commit import create_commit, get_parent_commit, get_next_commit
 from hashnstore import hash_content
-from utils import update_working_directory
 
 def get_latest_commit_hash(branch_name, repo_name='.vcs'):
     branch_path = os.path.join(repo_name, 'refs', 'heads', branch_name)
