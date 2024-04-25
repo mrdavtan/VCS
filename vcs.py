@@ -8,7 +8,7 @@ from branch import create_branch, get_current_branch, get_branch_commit, switch_
 from tracker import track_changes
 from commit import create_commit, get_parent_commit
 from hashnstore import hash_content
-
+from utils import get_next_commit, update_working_directory, get_latest_commit_hash
 
 def get_latest_commit_hash(branch_name, repo_name='.vcs'):
     branch_path = os.path.join(repo_name, 'refs', 'heads', branch_name)
@@ -18,8 +18,6 @@ def get_latest_commit_hash(branch_name, repo_name='.vcs'):
             return commit_hash
     except FileNotFoundError:
         return None
-
-
 
 def main():
     if len(sys.argv) < 2:
@@ -167,7 +165,6 @@ def main():
         else:
             print("Not currently on any branch.")
 
-
     elif command == 'status':
         changes = track_changes()
         branch_name = get_current_branch()
@@ -176,6 +173,7 @@ def main():
             commit_hash = get_latest_commit_hash(branch_name)
             print(f"On branch {branch_name}")
             print(f"Latest commit: {commit_hash}")
+
 
             if not any(changes.values()):
                 print("Nothing to commit, working tree clean.")
