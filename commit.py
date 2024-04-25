@@ -6,6 +6,7 @@ from hashnstore import store_object, hash_content
 from tracker import track_changes
 from branch import get_branch_commit
 
+
 def create_commit(message, author="Author <email>", repo_name='.vcs'):
     """Create a commit object and update the current branch reference."""
     # Get the current branch
@@ -50,7 +51,7 @@ def create_commit(message, author="Author <email>", repo_name='.vcs'):
     next_commit_hash = get_next_commit(commit_hash, repo_name)
     if next_commit_hash:
         commit_content += f"\nNext: {next_commit_hash}\n"
-        store_object(commit_content.encode('utf-8'), repo_name, commit_hash)
+        commit_hash = store_object(commit_content.encode('utf-8'), repo_name)
 
     # Update the branch reference to point to the new commit
     branch_path = os.path.join(repo_name, 'refs', 'heads', branch_name)
@@ -128,15 +129,19 @@ def get_next_commit(commit_hash, repo_name='.vcs'):
     print("No next commit found")
     return None
 
-
-
 def get_parent_commit(commit_hash, repo_name='.vcs'):
     """Get the parent commit hash of the specified commit."""
     commit_path = os.path.join(repo_name, 'objects', commit_hash[:2], commit_hash[2:])
-    with open(commit_path, 'rb') as f:
-        commit_content = f.read().decode('utf-8')
-    lines = commit_content.split('\n')
-    for line in lines:
-        if line.startswith('Parent: '):
-            return line[8:].strip()
+    try:
+        with open(commit_path, 'rb') as f:
+            commit_content = f.read().decode('utf-8')
+        lines = commit_content.split('\n')
+        for line in lines:
+            if line.startswith('Parent: '):
+                return line[8:].strip()
+    except FileNotFoundError:
+        return None
     return None
+
+
+
