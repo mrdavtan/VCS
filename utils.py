@@ -17,11 +17,13 @@ def update_working_directory(commit_hash, repo_name='.vcs'):
         elif file_section:
             if line:
                 file_path, file_hash = line.split('|')
+                file_path = file_path.lstrip('./')  # Remove the leading './' from the file path
                 file_content_path = os.path.join(repo_name, 'objects', file_hash[:2], file_hash[2:])
                 with open(file_content_path, 'rb') as f:
                     file_content = f.read()
                 with open(file_path, 'wb') as f:
                     f.write(file_content)
+
 
 def get_latest_commit_hash(branch_name, repo_name='.vcs'):
     """Get the latest commit hash of the specified branch."""
