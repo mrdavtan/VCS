@@ -6,9 +6,8 @@ from repository import init_repository
 from hashnstore import process_file, store_object
 from branch import create_branch, get_current_branch, get_branch_commit, switch_branch, list_branches
 from tracker import track_changes
-from commit import create_commit, get_parent_commit
+from commit import create_commit, get_parent_commit, get_next_commit
 from hashnstore import hash_content
-from utils import get_next_commit, update_working_directory, get_latest_commit_hash
 
 def get_latest_commit_hash(branch_name, repo_name='.vcs'):
     branch_path = os.path.join(repo_name, 'refs', 'heads', branch_name)
@@ -151,7 +150,9 @@ def main():
         current_branch = get_current_branch()
         if current_branch:
             current_commit = get_branch_commit(current_branch)
+            print(f"Current commit: {current_commit}")
             next_commit = get_next_commit(current_commit)
+            print(f"Next commit: {next_commit}")
             if next_commit:
                 # Update the branch reference to point to the next commit
                 branch_path = os.path.join('.vcs', 'refs', 'heads', current_branch)
@@ -164,6 +165,7 @@ def main():
                 print("Already at the latest commit.")
         else:
             print("Not currently on any branch.")
+
 
     elif command == 'status':
         changes = track_changes()

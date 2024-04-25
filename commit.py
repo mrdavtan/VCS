@@ -46,6 +46,12 @@ def create_commit(message, author="Author <email>", repo_name='.vcs'):
     # Store the commit object
     commit_hash = store_object(commit_content.encode('utf-8'), repo_name)
 
+    # Get the next commit hash
+    next_commit_hash = get_next_commit(commit_hash, repo_name)
+    if next_commit_hash:
+        commit_content += f"\nNext: {next_commit_hash}\n"
+        store_object(commit_content.encode('utf-8'), repo_name, commit_hash)
+
     # Update the branch reference to point to the new commit
     branch_path = os.path.join(repo_name, 'refs', 'heads', branch_name)
     with open(branch_path, 'w') as f:
@@ -77,6 +83,10 @@ def create_commit(message, author="Author <email>", repo_name='.vcs'):
                 for file in files:
                     f.write(file + '\n')
 
+    print(f"Created commit: {commit_hash}")
+    print(f"Parent commit: {parent_commit}")
+    print(f"Next commit: {next_commit_hash}")
+
     return commit_hash
 
 def get_next_commit(commit_hash, repo_name='.vcs'):
@@ -89,42 +99,36 @@ def get_next_commit(commit_hash, repo_name='.vcs'):
             commit_path = os.path.join(root, file)
             with open(commit_path, 'rb') as f:
                 commit_content = f.read().decode('utf-8')
-            commit_hash = os.path.join(root[-2:], file)
-            commit_objects.append((commit_hash, commit_content))
+            full_commit_hash = os.path.join(root, file)
+            commit_objects.append((full_commit_hash, commit_content))
 
     # Find the current commit index
     current_index = None
     for index, (hash, content) in enumerate(commit_objects):
-        if hash == commit_hash:
+        if hash == os.path.join(repo_name, 'objects', commit_hash[:2], commit_hash[2:]):
             current_index = index
             break
 
-    # Get the next commit hash
+    # Check if the current commit has a next commit hash in its metadata
+    if current_index is not None:
+        current_commit_content = commit_objects[current_index][1]
+        lines = current_commit_content.split('\n')
+        for line in lines:
+            if line.startswith('Next: '):
+                next_commit_hash = line[6:].strip()
+                print(f"Next commit hash from metadata: {next_commit_hash}")
+                return next_commit_hash
+
+    # If no next commit hash found in metadata, get the next commit hash based on the index
     if current_index is not None and current_index < len(commit_objects) - 1:
         next_commit_hash = commit_objects[current_index + 1][0]
+        print(f"Next commit hash from index: {next_commit_hash}")
         return next_commit_hash
 
+    print("No next commit found")
     return None
 
-def update_working_directory(commit_hash, repo_name='.vcs'):
-    """Update the working directory files based on the given commit hash."""
-    commit_path = os.path.join(repo_name, 'objects', commit_hash[:2], commit_hash[2:])
-    with open(commit_path, 'rb') as f:
-        commit_content = f.read().decode('utf-8')
 
-    lines = commit_content.split('\n')
-    file_section = False
-    for line in lines:
-        if line == "Files:":
-            file_section = True
-        elif file_section:
-            if line:
-                file_path, file_hash = line.split('|')
-                file_content_path = os.path.join(repo_name, 'objects', file_hash[:2], file_hash[2:])
-                with open(file_content_path, 'rb') as f:
-                    file_content = f.read()
-                with open(file_path, 'wb') as f:
-                    f.write(file_content)
 
 def get_parent_commit(commit_hash, repo_name='.vcs'):
     """Get the parent commit hash of the specified commit."""
