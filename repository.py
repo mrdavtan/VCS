@@ -10,7 +10,9 @@ def init_repository(repo_name='.vcs'):
     for subdir in subdirs:
         os.makedirs(os.path.join(repo_name, subdir), exist_ok=True)
     with open(os.path.join(repo_name, 'HEAD'), 'w') as f:
-        f.write('refs/heads/master\n')
+        f.write('ref: refs/heads/main\n')
 
-    # Create the initial "master" branch
-    create_branch('master', repo_name=repo_name)
+    # Create the initial "main" branch
+    create_branch('main', repo_name=repo_name)
+
+
