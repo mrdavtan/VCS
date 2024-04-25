@@ -52,7 +52,7 @@ def track_changes(repo_name='.vcs'):
             # Exclude specific files and directories
             excluded_files = [
                 'branch.py', 'hashnstore.py', '__init__.py', 'repository.py',
-                'vcs.py', 'commit.py', 'tracker.py', 'README.md'
+                'vcs.py', 'commit.py', 'tracker.py', 'README.md', 'utils.py'
             ]
             if any(file_path.endswith(excluded_file) for excluded_file in excluded_files):
                 continue

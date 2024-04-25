@@ -6,6 +6,8 @@ from hashnstore import store_object, hash_content
 from tracker import track_changes
 from branch import get_branch_commit
 
+
+
 def create_commit(message, author="Author <email>", repo_name='.vcs'):
     """Create a commit object and update the current branch reference."""
     # Get the current branch
@@ -122,6 +124,7 @@ def get_next_commit(commit_hash, repo_name='.vcs'):
     # If no next commit hash found in metadata, get the next commit hash based on the index
     if current_index is not None and current_index < len(commit_objects) - 1:
         next_commit_hash = commit_objects[current_index + 1][0]
+        next_commit_hash = os.path.basename(os.path.dirname(next_commit_hash)) + os.path.basename(next_commit_hash)
         print(f"Next commit hash from index: {next_commit_hash}")
         return next_commit_hash
 

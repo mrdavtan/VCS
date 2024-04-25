@@ -2,6 +2,7 @@
 import os
 
 
+
 def update_working_directory(commit_hash, repo_name='.vcs'):
     """Update the working directory files based on the given commit hash."""
     commit_path = os.path.join(repo_name, 'objects', commit_hash[:2], commit_hash[2:])
@@ -21,7 +22,6 @@ def update_working_directory(commit_hash, repo_name='.vcs'):
                     file_content = f.read()
                 with open(file_path, 'wb') as f:
                     f.write(file_content)
-
 
 def get_latest_commit_hash(branch_name, repo_name='.vcs'):
     """Get the latest commit hash of the specified branch."""
