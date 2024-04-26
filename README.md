@@ -1,6 +1,6 @@
 # Version Control System
 
-## Simple Version Control System (VCS)
+## Version Control System (VCS)
 ===================================
 
 ![version_control_system](https://github.com/mrdavtan/vcs/assets/21132073/442ecdc5-aa4c-41fb-b5de-9c41b951cf96)
@@ -11,7 +11,7 @@ A lightweight and easy-to-use version control system for managing code and text 
 ## Description
 -----------
 
-The Simple Version Control System (VCS) is a command-line tool designed to be operated locally by an LLM while testing and debugging. It provides a set of basic version control operations, following git conventions, allowing you to create commits, switch between branches, and navigate through the commit history.
+The Version Control System (VCS) is a command-line tool designed to be operated locally by an LLM while testing and debugging. It provides a set of basic version control operations, following git conventions, allowing you to create commits, switch between branches, and navigate through the commit history.
 
 This tool was made to avoid the situation of an agent sending too many commits unnecessarily by an agent, until the user is ready to push it to a remote repository.
 
@@ -28,20 +28,20 @@ This tool was made to avoid the situation of an agent sending too many commits u
 ## Installation
 ------------
 
-To use the Simple VCS, follow these steps:
+To use the VCS, follow these steps:
 
 1.  Clone the repository:
 ```bash
-git clone https://github.com/yourusername/simple-vcs.git
+git clone https://github.com/yourusername/vcs.git
 ```
 2. Navigate to the project directory:
 ```bash
-cd simple-vcs
+cd vcs
 ```
 
 3. Make sure you have Python installed (version 3.6 or higher).
 
-4. You're ready to start using the Simple VCS!
+4. You're ready to start using the VCS!
 
 ## Usage
 
@@ -81,8 +81,5 @@ License
 This project is licensed under the MIT License.
 
 The Simple VCS was inspired by the need for a lightweight version control system for local development and testing by an LLM. It follows git conventions while providing a simplified interface.
-
-Contact
-If you have any questions, suggestions, or feedback, please feel free to reach out to the project maintainer:
 
 Happy versioning!
