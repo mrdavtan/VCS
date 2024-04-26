@@ -1,6 +1,4 @@
 # Version Control System
-
-## Version Control System (VCS)
 ===================================
 
 ![version_control_system](https://github.com/mrdavtan/vcs/assets/21132073/442ecdc5-aa4c-41fb-b5de-9c41b951cf96)
